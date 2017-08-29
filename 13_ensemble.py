@@ -3,7 +3,6 @@
  Deokseong Seo
  M.S. Student in Industrial Management Engineering
  Korea University, Seoul, Republic of Korea
- Mobile Phone +82 10 2461 5207
  E-mail    heyhi16@korea.ac.kr
  Data Science and Business Analytics Lab
  Lab Homepage http://dsba.korea.ac.kr
