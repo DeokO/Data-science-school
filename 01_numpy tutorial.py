@@ -27,6 +27,8 @@ np.exp(x)
 np.log(x)
 np.sin(x)
 np.all(x)
+#x.으로 되는 것이 있고, x.으로 안되는 것이 있음
+#np.FUNCTION(x) 이렇게 하는 것이 안전할 듯
 x.all()
 x.sin()
 x.exp()
@@ -46,7 +48,6 @@ len(c[0][0])
 
 #배열의 차원과 크기 알아내기
 print(a.ndim)
-np.ndim(a)
 print(np.ndim(a))
 a.shape
 np.shape(a)
@@ -94,7 +95,6 @@ a[idx]
 #==============================================================================
 # Numpy 배열 생성과 변형
 #==============================================================================
-import numpy as np
 #inf, nan 등의 값을 표현할 수 있다.
 np.inf
 np.array([1,0]) / np.array([0,0])
@@ -108,7 +108,7 @@ a
 #dtype을 이용해서 자료형을 명시할 수 있다.
 b = np.zeros((5,2), dtype='f8')
 b
-#모든 원소의 문자열의 크기가 같아야 한다. 큰 의미 없는듯 하다.
+#모든 원소의 문자열의 크기가 같아야 한다.
 c = np.zeros(5, dtype="S4")
 c
 c[0] = 'abcd'
@@ -116,7 +116,7 @@ c[1] = 'ABCD'
 #1로 배열을 만드는 경우
 d = np.ones((2,3,4))
 d
-#크기를 튜플로 명싲하지 않고 특정 배열이나 리스트와 같은 크기로 만들고 싶은 경우
+#크기를 튜플로 명시하지 않고 특정 배열이나 리스트와 같은 크기로 만들고 싶은 경우
 e = range(10)
 print(e)
 f = np.ones_like(e, dtype='f')
@@ -124,7 +124,7 @@ f
 #빈칸으로 만들고 싶은 경우. 쓰레기값이 들어가게 된다.
 g = np.empty((4,3))
 g
-#arange
+#arange (시작, 끝, step 크기)
 np.arange(10)
 np.arange(3, 21, 2)
 np.arange(0, 100, 5)
@@ -143,7 +143,7 @@ b = np.reshape(a, (3,4)) #자료에는 a.reshape(3,4) 로 나와있음
 b
 a.reshape(3,4)
 np.reshape(a, (2,-1,2)) #전체 원소개수가 정해져 있어서 하나의 차원은 -1로 주면 알아서 계산
-a.flatten() #이거는 탭으로 해도 나오지 않음
+a.flatten() #한 벡터로 쭉 펴주는 함수
 #주의사항
 x = np.arange(5)
 x
@@ -173,6 +173,7 @@ c2
 np.dstack([c1, c2])
 #R의 list처럼 그냥 모으는 역할. 크기가 모두 같아야 함 stack
 c = np.stack([c1, c2], axis=0) #axis는 -3부터 3까지 가능
+c
 #array_equal 로 배열 원소가 아닌 전체를 비교
 np.array_equal(c[0,:,:], c1)
 np.array_equal(c[1,:,:], c2)
@@ -185,13 +186,12 @@ a = np.array([0,1,2])
 np.tile(a, 2)
 np.tile(a, (3,2))
 
-#그리드 생성
+#그리드 생성 (작은 길이를 가진 변수에 맞춰져서 zip을 생성함
 x = np.arange(3)
-x
-y=np.arange(5)
+y = np.arange(5)
 X, Y = np.meshgrid(x, y)
 [zip(x, y) for x, y in zip(X, Y)]
-
+list(zip(x, y))
 
 
 
@@ -206,7 +206,7 @@ y = np.arange(1001, 2001)
 z = np.zeros_like(x)
 for i in range(1000) :
     z[i] = x[i] + y[i]
-%%time #계산하고자 하는 식을 돌릴때 같이 끼워서 돌리면 소요시간 확인 가능
+# %%time #계산하고자 하는 식을 돌릴때 같이 끼워서 돌리면 소요시간 확인 가능
 z = x + y
 #비교
 a = np.array([1, 2, 3, 4])
@@ -292,7 +292,6 @@ a[j]
 #==============================================================================
 # Numpy를 활용한 선형대수 입문
 #==============================================================================
-import numpy as np
 x = np.array([[1], [2], [3], [4]])
 x #원래 정의대로라면 이렇게 열벡터로 표현해야함
 x = np.array([1, 2, 3, 4])
@@ -331,9 +330,10 @@ C = np.array([[9, 8], [7, 6]])
 np.dot(A, B+C)
 np.dot(A, B) + np.dot(A, C)
 np.dot(A+B, C)
-np.dot(A, C)+npdot(B, C)
+np.dot(A, C)+np.dot(B, C)
 I = np.eye(2)
 np.dot(I, A)
+
 #가중합
 from sklearn.datasets import make_regression
 X, y = make_regression(4, 3)
@@ -372,10 +372,10 @@ np.linalg.det(np.array([[1, 2], [3, 4]]))
 #==============================================================================
 A = np.array([[1, 3, -2], [3, 5, 6], [2, 4, 3]])
 A
+Ainv = np.linalg.inv(A)
+Ainv
 
 b = np.array([[5], [7], [8]])
-Ainv = np.linalg.inv(A)
-A
 x = np.dot(Ainv, b)
 x
 np.dot(A, x) - b 
@@ -396,11 +396,4 @@ x
 np.dot(A, x) - b
 x, resid, rank, s = np.linalg.lstsq(A, b)
 x
-
-
-
-
-
-
-
 
